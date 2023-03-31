@@ -1,9 +1,7 @@
 ﻿using ExcelToDatabase.Data;
 using ExcelToDatabase.Models;
 using ExcelToDatabase.Repository.Interfaces;
-using ExcelToDatabase.Services;
 using ExcelToDatabase.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 
@@ -24,13 +22,7 @@ namespace ExcelToDatabase.Repository
         {
             var data = await getProductsAsync();
             var excel = _excel.CreateStream(data);
-
-            using (var memoryStream = new MemoryStream())
-            {
-                excel.SaveAs(memoryStream);
-                var content = memoryStream.ToArray();
-                return new MemoryStream(content);
-            }
+            return excel;
         }
 
         public async Task<IEnumerable<Products>> getProductsAsync()

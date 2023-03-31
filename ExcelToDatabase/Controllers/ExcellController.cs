@@ -26,14 +26,15 @@ namespace ExcelToDatabase.Controllers
             return Ok(products);
         }
 
-        
-        public async Task<ActionResult<FileResult>> DowloadExcel()
+        [HttpGet("Get file")]
+        public async Task<IActionResult> DowloadExcel()
         {
             var excel = _bd.generateExcelFile();
-            var file = new FileInfo(excel);
+            
+            return File(excel.Result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Planilha.xlsx");
         }
 
-        //Expera um multipart/form-data seja passado nesse endpoint
+        //Espera um multipart/form-data seja passado nesse endpoint
         [Consumes("multipart/form-data")]
         [HttpPost("Insert Data")]
         public async Task<ActionResult<Products>> InputFile(IFormFile file)

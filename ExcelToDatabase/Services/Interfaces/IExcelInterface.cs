@@ -9,6 +9,6 @@ namespace ExcelToDatabase.Services.Interfaces
 
         public MemoryStream ReadStream(IFormFile file);
 
-        public ExcelPackage CreateStream(IEnumerable<Products> data);
+        public MemoryStream CreateStream(IEnumerable<Products> data);
     }
 }

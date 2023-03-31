@@ -1,5 +1,7 @@
-﻿using ExcelToDatabase.Models;
+﻿using Aspose.Cells;
+using ExcelToDatabase.Models;
 using ExcelToDatabase.Services.Interfaces;
+using Microsoft.VisualBasic;
 using OfficeOpenXml;
 
 namespace ExcelToDatabase.Services
@@ -49,34 +51,38 @@ namespace ExcelToDatabase.Services
             return response;
         }
 
-        public ExcelPackage CreateStream(IEnumerable<Products> data)
+        public MemoryStream CreateStream(IEnumerable<Products> data)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            ExcelPackage excel = new ExcelPackage();
-
-            var worksheet = excel.Workbook.Worksheets.Add("Product stock");
-
-            worksheet.TabColor = System.Drawing.Color.Green;
-            worksheet.DefaultRowHeight = 12;
-            worksheet.Rows.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-            worksheet.Row(1).Height = 20;
-            worksheet.Row(1).Style.Font.Bold = true;
-
-            worksheet.Cells[1, 1].Value = "Name";
-            worksheet.Cells[1, 2].Value = "Price";
-            worksheet.Cells[1, 3].Value = "stock";
-
-            int indice = 2;
-
-            foreach(var item in data)
+            
+            using(var excel = new ExcelPackage())
             {
-                worksheet.Cells[indice, 1].Value = item.name;
-                worksheet.Cells[indice, 2].Value = item.price;
-                worksheet.Cells[indice, 3].Value = item.stock;
-                indice++;
-            }
+                var worksheet = excel.Workbook.Worksheets.Add("Product stock");
 
-            return excel;
+                worksheet.TabColor = System.Drawing.Color.Green;
+                worksheet.DefaultRowHeight = 12;
+                worksheet.Rows.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                worksheet.Row(1).Height = 20;
+                worksheet.Row(1).Style.Font.Bold = true;
+
+                worksheet.Cells[1, 1].Value = "Name";
+                worksheet.Cells[1, 2].Value = "Price";
+                worksheet.Cells[1, 3].Value = "stock";
+
+                int indice = 2;
+
+                foreach (var item in data)
+                {
+                    worksheet.Cells[indice, 1].Value = item.name;
+                    worksheet.Cells[indice, 2].Value = item.price;
+                    worksheet.Cells[indice, 3].Value = item.stock;
+                    indice++;
+                }
+
+                var stream = new MemoryStream(excel.GetAsByteArray());
+
+                return stream;
+            }
         }
     }
 }
