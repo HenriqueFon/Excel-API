@@ -1,24 +1,11 @@
-﻿using Aspose.Cells;
-using ExcelToDatabase.Models;
+﻿using ExcelToDatabase.Models;
 using ExcelToDatabase.Services.Interfaces;
-using Microsoft.VisualBasic;
 using OfficeOpenXml;
 
 namespace ExcelToDatabase.Services
 {
     public class ExcelServices : IExcelInterface
     {
-        public MemoryStream ReadStream(IFormFile file)
-        {
-            using(var stream = new MemoryStream())
-            {
-                file?.CopyTo(stream);
-                var byteArray = stream.ToArray();
-
-                return new MemoryStream(byteArray);
-            }
-        }
-
         public List<Products> ReadXls(MemoryStream file)
         {
             var response = new List<Products>();
@@ -51,7 +38,7 @@ namespace ExcelToDatabase.Services
             return response;
         }
 
-        public MemoryStream CreateStream(IEnumerable<Products> data)
+        public MemoryStream CreateExcelFile(IEnumerable<Products> data)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             
