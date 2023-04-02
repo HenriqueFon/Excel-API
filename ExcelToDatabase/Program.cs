@@ -1,4 +1,6 @@
 using ExcelToDatabase.Data;
+using ExcelToDatabase.Facade;
+using ExcelToDatabase.Facade.Interface;
 using ExcelToDatabase.Models;
 using ExcelToDatabase.Repository;
 using ExcelToDatabase.Repository.Interfaces;
@@ -16,8 +18,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var sqlConnect = builder.Configuration.GetSection("sqlConnection").Get<SqlConnect>();
 builder.Services.AddDbContext<DBDataContext>(options => options.UseSqlServer(sqlConnect.ConnectionString));
-builder.Services.AddScoped<IBDservices, BDservices>();
+builder.Services.AddScoped<IBDrepository, BDrepository>();
 builder.Services.AddScoped<IExcelInterface, ExcelServices>();
+builder.Services.AddScoped<IReadStream, ReadStreamService>();
+builder.Services.AddScoped<IExcelFacade, ExcelFacade>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
