@@ -1,3 +1,4 @@
+using Aspose.Cells.Charts;
 using ExcelToDatabase.Data;
 using ExcelToDatabase.Facade;
 using ExcelToDatabase.Facade.Interface;
@@ -16,6 +17,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 var sqlConnect = builder.Configuration.GetSection("sqlConnection").Get<SqlConnect>();
 builder.Services.AddDbContext<DBDataContext>(options => options.UseSqlServer(sqlConnect.ConnectionString));
 builder.Services.AddScoped<IBDrepository, BDrepository>();
@@ -32,7 +37,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
