@@ -45,7 +45,6 @@ namespace ExcelToDatabase.Services
             using(var excel = new ExcelPackage())
             {
                 var worksheet = excel.Workbook.Worksheets.Add("Product stock");
-
                 worksheet.TabColor = System.Drawing.Color.Green;
                 worksheet.DefaultRowHeight = 12;
                 worksheet.Rows.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
