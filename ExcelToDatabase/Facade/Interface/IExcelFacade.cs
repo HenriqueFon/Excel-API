@@ -5,9 +5,8 @@ namespace ExcelToDatabase.Facade.Interface
     public interface IExcelFacade
     {
         public Task<MemoryStream> generateExcelFile();
-
+        public Task<MemoryStream> generateExcelModelFile();
         public Task<IEnumerable<Products>> getProductsAsync();
-
         public Task<IList<Products>> postProductAsync(IFormFile file);
     }
 }

@@ -70,5 +70,28 @@ namespace ExcelToDatabase.Services
                 return stream;
             }
         }
+
+        public MemoryStream CreateExcelModelFile()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (var excel = new ExcelPackage())
+            {
+                var worksheet = excel.Workbook.Worksheets.Add("Product stock");
+                worksheet.TabColor = System.Drawing.Color.Green;
+                worksheet.DefaultRowHeight = 12;
+                worksheet.Rows.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                worksheet.Row(1).Height = 20;
+                worksheet.Row(1).Style.Font.Bold = true;
+
+                worksheet.Cells[1, 1].Value = "Name";
+                worksheet.Cells[1, 2].Value = "Price";
+                worksheet.Cells[1, 3].Value = "stock";
+
+                var stream = new MemoryStream(excel.GetAsByteArray());
+
+                return stream;
+            }
+        }
     }
 }

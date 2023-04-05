@@ -30,6 +30,14 @@ namespace ExcelToDatabase.Controllers
             return File(excel.Result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Planilha.xlsx");
         }
 
+        [HttpGet("Get-model-file")]
+        public async Task<IActionResult> DownloadExcelModel()
+        {
+            var excel = _excelFacade.generateExcelModelFile();
+
+            return File(excel.Result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Planilha.xlsx");
+        }
+
         //Espera um multipart/form-data seja passado nesse endpoint
         [Consumes("multipart/form-data")]
         [HttpPost("Insert-Data")]

@@ -25,6 +25,13 @@ namespace ExcelToDatabase.Facade
             return excel;
         }
 
+        public async Task<MemoryStream> generateExcelModelFile()
+        {
+            var excel = _excel.CreateExcelModelFile();
+
+            return excel;
+        }
+
         public async Task<IEnumerable<Products>> getProductsAsync()
         {
             return await _db.getDataAsync();
