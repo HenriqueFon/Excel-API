@@ -40,7 +40,7 @@ namespace ExcelToDatabase.Controllers
 
         //Espera um multipart/form-data seja passado nesse endpoint
         [Consumes("multipart/form-data")]
-        [HttpPost("Insert-Data")]
+        [HttpPost("Insert-data")]
         public async Task<ActionResult<Products>> InputFile(IFormFile file)
         {
             var saveExcel = await _excelFacade.postProductAsync(file);
